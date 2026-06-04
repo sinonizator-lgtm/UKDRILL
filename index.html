@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UK Drill Состав</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght=900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', 'Arial Black', sans-serif;
+            background-color: #0b0b0b; 
+            color: #ffffff;
+            scroll-behavior: smooth;
+            position: relative;
+            overflow-x: hidden; 
+        }
+
+        /* НЕОНОВЫЕ БОКОВЫЕ ПАНЕЛИ */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100vh;
+            background-color: #ff1e27;
+            box-shadow: 0 0 30px #ff1e27, 0 0 60px rgba(255, 30, 39, 0.6);
+            z-index: 999;
+            animation: sideNeonPulseRed 3s infinite ease-in-out;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 8px;
+            height: 100vh;
+            background-color: #1e7aff;
+            box-shadow: 0 0 30px #1e7aff, 0 0 60px rgba(30, 122, 255, 0.6);
+            z-index: 999;
+            animation: sideNeonPulseBlue 3s infinite ease-in-out;
+        }
+
+        /* ГЛАВНЫЙ ЭКРАН */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #0b0b0b; 
+        }
+
+        .welcome-box {
+            display: flex;
+            flex-direction: column; 
+            align-items: center;    
+            text-align: center;
+            padding-top: 20px; 
+            transition: opacity 1s ease-out, transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .welcome-box.scroll-hide {
+            opacity: 0 !important;
+            transform: translateY(-50px) scale(0.95) !important;
+        }
+
+        .avatar-container {
+            display: block; 
+            margin-bottom: 25px; 
+            position: relative; 
+        }
+
+        .clan-avatar {
+            width: 160px; 
+            height: 160px;
+            border-radius: 50%; 
+            object-fit: cover; 
+            border: 4px solid #ff1e27; 
+            box-shadow: 0 0 15px rgba(255, 30, 39, 0.6); 
+            animation: avatarPulse 2s infinite ease-in-out;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease;
+        }
+
+        .avatar-container:hover .clan-avatar {
+            transform: scale(1.1); 
+            box-shadow: 0 0 35px rgba(255, 30, 39, 1); 
+        }
+
+        .uk-text {
+            color: #ff1e27;
+            text-shadow: 0 0 20px rgba(255, 30, 39, 0.4);
+            transition: text-shadow 0.25s ease;
+        }
+
+        .drill-text {
+            color: #1e7aff;
+            text-shadow: 0 0 20px rgba(30, 122, 255, 0.4);
+            transition: text-shadow 0.25s ease;
+        }
+
+        .main-title {
+            font-size: 4rem; 
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), letter-spacing 0.4s ease;
+        }
+
+        .main-title:hover {
+            transform: scale(1.05); 
+            letter-spacing: 4px;    
+        }
+
+        .subtitle {
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 1.1rem;
+            color: #777777;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+
+        /* СЕКЦИЯ ИГРОКОВ */
+        .players-section {
+            padding: 0 60px 100px 60px; 
+            background-color: #0b0b0b; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .section-title-block {
+            text-align: center;
+            margin-bottom: 60px;
+            border-bottom: 2px solid #ffffff;
+            padding-bottom: 15px;
+            cursor: pointer;
+            display: inline-block; 
+            transition: opacity 0.8s ease-out,
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .section-title-block.scroll-hide {
+            opacity: 0 !important;
+            transform: translateY(80px) scale(0.95) !important;
+        }
+
+        .section-title-top { font-size: 2.5rem; letter-spacing: 6px; text-transform: uppercase; transition: text-shadow 0.3s ease; }
+        .section-title-bottom { font-size: 2.3rem; letter-spacing: 4px; text-transform: uppercase; margin-top: 5px; }
+
+        .section-title-block:hover { transform: translateY(-8px) scale(1.05); }
+        .section-title-block:hover .section-title-top { text-shadow: 0 0 25px rgba(255, 255, 255, 0.9); }
+        .section-title-block:hover .uk-text { animation: titleNeonRed 1s infinite linear; }
+        .section-title-block:hover .drill-text { animation: titleNeonBlue 1s infinite linear; }
+
+        /* СЕТКА И КАРТОЧКИ ИГРОКОВ */
+        .players-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+            gap: 35px; 
+            width: 100%;
+            max-width: 1200px; 
+        }
+
+        .player-card.scroll-hide {
+            opacity: 0 !important;
+            transform: translateY(110px) scale(0.7) !important;
+        }
+
+        .player-card {
+            background: #0d0d0d;
+            padding: 35px 20px;
+            text-align: center;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-radius: 8px; 
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            animation: cardNeonWave 3s infinite ease-in-out;
+            transition: opacity 0.35s cubic-bezier(0.1, 1.4, 0.3, 1),
+                        transform 0.35s cubic-bezier(0.1, 1.4, 0.3, 1),
+                        border-color 0.25s ease,
+                        text-shadow 0.25s ease;
+        }
+
+        .player-card:hover {
+            transform: translateY(-12px) scale(1.05); 
+            border-color: #ffffff;
+            animation: cardNeonWaveHover 1.2s infinite linear; 
+            text-shadow: 0 0 12px rgba(255, 255, 255, 1);
+        }
+
+        /* АНИМАЦИИ */
+        @keyframes titleNeonRed { 0%, 100% { text-shadow: 0 0 35px rgba(255, 30, 39, 1), 0 0 10px rgba(255, 30, 39, 0.8); } 50% { text-shadow: 0 0 10px rgba(255, 30, 39, 0.2), 0 0 0px rgba(255, 30, 39, 0); } }
+        @keyframes titleNeonBlue { 0%, 100% { text-shadow: 0 0 10px rgba(30, 122, 255, 0.2), 0 0 0px rgba(30, 122, 255, 0); } 50% { text-shadow: 0 0 35px rgba(30, 122, 255, 1), 0 0 10px rgba(30, 122, 255, 0.8); } }
+        @keyframes cardNeonWave { 0%, 100% { box-shadow: -6px 6px 20px rgba(255, 30, 39, 0.85), 6px -6px 15px rgba(30, 122, 255, 0.15); } 50% { box-shadow: -6px 6px 15px rgba(255, 30, 39, 0.15), 6px -6px 20px rgba(30, 122, 255, 0.85); } }
+        @keyframes cardNeonWaveHover { 0%, 100% { box-shadow: -15px 15px 35px rgba(255, 30, 39, 1), 15px -15px 25px rgba(30, 122, 255, 0.2), 0 0 15px rgba(255, 255, 255, 0.2); } 50% { box-shadow: -15px 15px 25px rgba(255, 30, 39, 0.2), 15px -15px 35px rgba(30, 122, 255, 1), 0 0 15px rgba(255, 255, 255, 0.2); } }
+        @keyframes sideNeonPulseRed { 0%, 100% { box-shadow: 0 0 20px #ff1e27, 0 0 40px rgba(255, 30, 39, 0.4); } 50% { box-shadow: 0 0 35px #ff1e27, 0 0 70px rgba(255, 30, 39, 0.8); } }
+        @keyframes sideNeonPulseBlue { 0%, 100% { box-shadow: 0 0 20px #1e7aff, 0 0 40px rgba(30, 122, 255, 0.4); } 50% { box-shadow: 0 0 35px #1e7aff, 0 0 70px rgba(30, 122, 255, 0.8); } }
+        @keyframes avatarPulse { 0%, 100% { box-shadow: 0 0 15px rgba(255, 30, 39, 0.6); } 50% { box-shadow: 0 0 25px rgba(255, 30, 39, 0.9); } }
+    </style>
+</head>
+<body>
+
+    <main class="hero-section">
+        <div class="welcome-box scroll-hide">
+            <div class="avatar-container">
+                <img src="img/IMG_3988.PNG" alt="Аватарка Клана" class="clan-avatar">
+            </div>
+            <h1 class="main-title">
+                ИГРОКИ <span class="uk-text">UK</span> <span class="drill-text">DRILL</span>
+            </h1>
+          
+        </div>
+    </main>
+
+    <section class="players-section">
+        <div class="section-title-block scroll-hide">
+            <h2 class="section-title-top">ИГРОКИ ГИЛЬДИИ</h2>
+            <h3 class="section-title-bottom"><span class="uk-text">UK</span> <span class="drill-text">DRILL</span></h3>
+        </div>
+
+        <div class="players-grid">
+            <div class="player-card scroll-hide">Умерший</div>
+            <div class="player-card scroll-hide">Нурлиза</div>
+            <div class="player-card scroll-hide">Палка</div>
+            <div class="player-card scroll-hide">Диленов</div>
+            <div class="player-card scroll-hide">Рагна</div>
+            <div class="player-card scroll-hide">Артур</div>
+            <div class="player-card scroll-hide">Микося</div>
+            <div class="player-card scroll-hide">Нукеш</div>
+            <div class="player-card scroll-hide">Газ</div>
+            <div class="player-card scroll-hide">Кама</div>
+            <div class="player-card scroll-hide">Саске</div>
+            <div class="player-card scroll-hide">Морти</div>
+            <div class="player-card scroll-hide">Жумокулов</div> </div>
+    </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const animatedElements = document.querySelectorAll('.welcome-box, .section-title-block, .player-card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.remove('scroll-hide');
+                    } else {
+                        entry.target.classList.add('scroll-hide');
+                    }
+                });
+            }, { threshold: 0.05 });
+            animatedElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
